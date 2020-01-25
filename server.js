@@ -15,11 +15,11 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 
 socket.on('connect', function (io) {
-    io.on('event', function (data) {
-        console.log(data);
+    io.on('buzz', function (data) {
+        console.log("Buzz!! \n " + data);
+        io.broadcast.emit("buzz", data);
     });
 
-    socket.emit("new", {});
 });
 socket.on('disconnect', function () { });
 server.listen(port);

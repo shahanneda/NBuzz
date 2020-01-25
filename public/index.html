@@ -18,12 +18,17 @@
     var socket = io(window.location.href);
     socket.on('connect', function () {
         console.log("connected!");
-        socket.emit("event", { test: "test" });
     });
-    socket.on("new", function (data) {
-        alert("New Member!!");
+
+    document.getElementsByClassName("buzzer")[0].addEventListener("click", function (event) {
+        socket.emit("buzz", {
+            sender: "a client",
+            time: Date().time
+        });
     })
-    socket.on('event', function (data) { });
+    socket.on("buzz", function (data) {
+        alert("HEY!  " + data.sender + "BUZZED!! at  time " + data.time);
+    })
     socket.on('disconnect', function () { });
 </script>
 
