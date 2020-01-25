@@ -54,6 +54,7 @@
             console.log(data);
         });
         function clearList() {
+            socket.emit("buzzListClear", {});
         }
     </script>
 </body>

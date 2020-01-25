@@ -29,6 +29,11 @@ socket.on('connect', function (io) {
         socket.emit("buzzListUpdate", { buzzList: buzzList });
     });
 
+    io.on("buzzListClear", function (data) {
+        buzzList = [];
+        socket.emit("buzzListUpdate", { buzzList: buzzList });
+    })
+
 });
 socket.on('disconnect', function () { });
 server.listen(port)
