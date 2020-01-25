@@ -10,22 +10,24 @@
 </head>
 
 <body>
-    <div class="header">
+    <div class="container">
+        <div class="header" style="padding:10px;">
+            <a onclick="clearList()" class="waves-effect waves-light btn" style="margin: 10px;">Clear</a>
+        </div>
 
+        <div class="buzzlistWrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody id="buzzTableBody">
 
-    </div>
-    <div class="buzzlistWrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Time</th>
-                </tr>
-            </thead>
-            <tbody id="buzzTableBody">
-
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -41,14 +43,18 @@
             let buzzTableBody = document.getElementById("buzzTableBody");
             buzzTableBody.innerHTML = "";
             data.buzzList.map(function (value, index) {
+                let date = new Date(value.time);
+                let timeString = date.getMinutes() + " : " + date.getSeconds() + " : " + date.getMilliseconds();
+
                 buzzTableBody.innerHTML += "<tr>\
                     <td>"+ value.sender + "</td>\
-                    <td>"+ value.time + "</td>\
+                    <td>"+ timeString + "</td>\
                 </tr>";
             });
             console.log(data);
         });
-
+        function clearList() {
+        }
     </script>
 </body>
 
