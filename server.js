@@ -38,6 +38,7 @@ socket.on('connect', function (io) {
 });
 socket.on('disconnect', function () { });
 server.listen(port);
+let fullAddress = ip.address() + ":" + port;
 console.log("Server Started \nIP address: " + ip.address() + "\nPort: " + port + "\nFull Address: " + ip.address() + ":" + port);
 SortBuzzList();
 
@@ -53,6 +54,24 @@ function SortBuzzList() {//simple insertion sort
     }
 }
 
+const https = require("https");
+const options = {
+    hostname: 'leanqualityacademy.com',
+    port: 443,
+    path: '/buzz/buzzSet.php?url=' + fullAddress,
+    method: 'GET'
+}
+
+const req = https.request(options, function (res) {
+    console.log("\nSent address to server \nAddress Sent: " + fullAddress + "\nStatus Code:" + res.statusCode);
+
+})
+
+req.on('error', function (error) {
+    console.error(error);
+});
+
+req.end()
 function swap(first, second) {
     let old = buzzList[first];
     buzzList[first] = buzzList[second];
