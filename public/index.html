@@ -9,10 +9,13 @@
 </head>
 
 <body>
+    <label for="name">Name</label>
+    <input type="text" id="name" />
     <div class="buzzer">
         <img src="./buzzer.jpeg" />
     </div>
 </body>
+
 <script src="/socket.io/socket.io.js"></script>
 <script>
     var socket = io(window.location.href);
@@ -22,12 +25,12 @@
 
     document.getElementsByClassName("buzzer")[0].addEventListener("click", function (event) {
         socket.emit("buzz", {
-            sender: "a client",
-            time: Date().time
+            sender: document.getElementById("name").value,
+            time: new Date().getTime()
         });
     })
     socket.on("buzz", function (data) {
-        alert("HEY!  " + data.sender + "BUZZED!! at  time " + data.time);
+        alert("HEY! " + data.sender + " BUZZED!! at  time " + data.time);
     })
     socket.on('disconnect', function () { });
 </script>
