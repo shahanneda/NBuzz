@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const server = require("http").createServer(app);// from my research we create our own http server instead of just using the one express gives so we can use the same one for socket io
+const ip = require("ip");
 var buzzList = [];
 
 const port = 3000;
@@ -36,9 +37,9 @@ socket.on('connect', function (io) {
 
 });
 socket.on('disconnect', function () { });
-server.listen(port)
+server.listen(port);
+console.log("Server Started \nIP address: " + ip.address() + "\nPort: " + port + "\nFull Address: " + ip.address() + ":" + port);
 SortBuzzList();
-console.log(buzzList);
 
 function SortBuzzList() {//simple insertion sort
     for (var i = 0; i < buzzList.length; i++) {
