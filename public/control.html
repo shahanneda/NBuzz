@@ -22,11 +22,8 @@
                     <th>Time</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Sample</td>
-                    <td>13:13:13</td>
-                </tr>
+            <tbody id="buzzTableBody">
+
             </tbody>
         </table>
     </div>
@@ -41,6 +38,14 @@
         });
 
         socket.on("buzzListUpdate", function (data) {
+            let buzzTableBody = document.getElementById("buzzTableBody");
+            buzzTableBody.innerHTML = "";
+            data.buzzList.map(function (value, index) {
+                buzzTableBody.innerHTML += "<tr>\
+                    <td>"+ value.sender + "</td>\
+                    <td>"+ value.time + "</td>\
+                </tr>";
+            });
             console.log(data);
         });
 
