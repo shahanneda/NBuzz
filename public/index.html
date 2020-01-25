@@ -32,6 +32,9 @@
     socket.on("buzz", function (data) {
         alert("HEY! " + data.sender + " BUZZED!! at  time " + data.time);
     })
+    socket.on("buzzListUpdate", function (data) {
+        console.log("got  buzz l iust:" + data);
+    });
     socket.on('disconnect', function () { });
 </script>
 

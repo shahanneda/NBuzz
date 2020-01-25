@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 
 socket.on('connect', function (io) {
+    socket.emit("buzzListUpdate", { buzzList: buzzList });
     io.on('buzz', function (data) {
         console.log("Buzz!! \n " + data);
         io.broadcast.emit("buzz", data);
