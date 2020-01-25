@@ -1,1 +1,30 @@
-testing
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Buzzer</title>
+</head>
+
+<body>
+    <div class="buzzer">
+        <img src="./buzzer.jpeg" />
+    </div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io(window.location.href);
+    socket.on('connect', function () {
+        console.log("connected!");
+        socket.emit("event", { test: "test" });
+    });
+    socket.on("new", function (data) {
+        alert("New Member!!");
+    })
+    socket.on('event', function (data) { });
+    socket.on('disconnect', function () { });
+</script>
+
+</html>
