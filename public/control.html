@@ -13,6 +13,8 @@
     <div class="container">
         <div class="header" style="padding:10px;">
             <a onclick="clearList()" class="waves-effect waves-light btn" style="margin: 10px;">Clear</a>
+            <a onclick="toggleAudio()" class="AudioToggle waves-effect blue waves-light btn" style="margin: 10px;">Audio
+                on</a>
         </div>
 
         <div class="buzzlistWrapper">
@@ -34,7 +36,7 @@
         var url = window.location.href;
         var url = url.substr(0, url.lastIndexOf("/"));//this is to remove the /control
         var socket = io(url);
-
+        let audioOn = true;
         socket.on('connect', function () {
             console.log("connected!");
         });
@@ -55,6 +57,20 @@
         });
         function clearList() {
             socket.emit("buzzListClear", {});
+        }
+        function toggleAudio(event) {
+            audioOn = !audioOn;
+            socket.emit("audioChange", { audioOn: audioOn });
+            let button = document.getElementsByClassName("AudioToggle")[0];
+            if (audioOn) {
+                button.classList.remove("red");
+                button.classList.add("blue");
+                button.innerHTML = "Audio On"
+            } else {
+                button.classList.remove("blue");
+                button.classList.add("red");
+                button.innerHTML = "Audio Off"
+            }
         }
     </script>
 </body>

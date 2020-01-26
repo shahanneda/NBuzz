@@ -7,6 +7,7 @@ var buzzList = [];
 
 const port = 3000;
 var socket = require('socket.io').listen(server);
+let audioOn = true;
 
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, 'public/index.html'));
@@ -25,7 +26,6 @@ socket.on('connect', function (io) {
         io.broadcast.emit("buzz", data);
         buzzList.push(data);
         SortBuzzList();
-        buzzList.reverse();
         console.log(buzzList);
         socket.emit("buzzListUpdate", { buzzList: buzzList });
     });
@@ -34,6 +34,11 @@ socket.on('connect', function (io) {
         buzzList = [];
         socket.emit("buzzListUpdate", { buzzList: buzzList });
     })
+
+    io.on("audioChange", function (data) {
+        audioOn = data.audioOn;
+        socket.emit("audioChange", { audioOn: audioOn });
+    });
 
 });
 socket.on('disconnect', function () { });
@@ -52,6 +57,7 @@ function SortBuzzList() {//simple insertion sort
             j--;
         }
     }
+    buzzList.reverse();
 }
 
 const https = require("https");
@@ -63,7 +69,7 @@ const options = {
 }
 
 const req = https.request(options, function (res) {
-    console.log("\nSent address to server \nAddress Sent: " + fullAddress + "\nStatus Code:" + res.statusCode);
+    console.log("\nSent address to server \nAddress Sent: " + fullAddress + "\nStatus Code:" + res.statusCode + "\nYou can now accesss the buzzer at shahan.ca/buzz");
 
 })
 

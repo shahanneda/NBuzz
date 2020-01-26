@@ -3,32 +3,55 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Buzzer</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
 <body>
     <label for="name">Name</label>
     <input type="text" id="name" />
-    <div class="buzzer">
-        <img src="./buzzer.jpeg" />
+    <div class="buzzer ">
+        <div class="buzzerInside"></div>
+        <!-- <img src="./buzzer.jpeg" /> -->
     </div>
+    <audio src="./buzz.mp3"></audio>
 </body>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
     var socket = io(window.location.href);
+    let audioOn = true;
+    var buzzSound = new Audio("buzz.mp3");
+
     socket.on('connect', function () {
         console.log("connected!");
     });
 
     document.getElementsByClassName("buzzer")[0].addEventListener("click", function (event) {
+        if (audioOn) {
+            // document.getElementsByTagName("audio")[0].play();
+            buzzSound.play()
+        }
         socket.emit("buzz", {
             sender: document.getElementById("name").value,
             time: new Date().getTime()
         });
-    })
+        document.getElementsByClassName("buzzer")[0].classList.add("in");
+
+        setTimeout(function () {
+            document.getElementsByClassName("buzzer")[0].classList.remove("in");
+        }, 1000);
+
+    });
+    socket.on("audioChange", function (data) {
+        audioOn = data.audioOn;
+    });
+
     socket.on("buzz", function (data) {
     })
     socket.on("buzzListUpdate", function (data) {

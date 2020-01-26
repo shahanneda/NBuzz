@@ -1,0 +1,22 @@
+html{
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+body{
+    padding: 0px;
+    margin: 0px;
+}
+.buzzer{
+    width: 100vw;
+    height: 100vh;
+    background-color: red;
+    border: black;
+    border-radius:50% ;
+}
+.in{
+    background-color: blue;
+}
+.buzzerInside{
+
+}
